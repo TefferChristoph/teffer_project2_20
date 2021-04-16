@@ -1,0 +1,12 @@
+[
+  {
+    "directory": "/mnt/c/Users/chris/Desktop/teffer_project2_20/build",
+    "command": "c++  -Imeasssuring_point@exe -I. -I.. -I.././include -I.././include/spdlog/include -I../include -I./include -I./include/spdlog/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread -MD -MQ 'measssuring_point@exe/src_meassuring_point_main.cpp.o' -MF 'measssuring_point@exe/src_meassuring_point_main.cpp.o.d' -o 'measssuring_point@exe/src_meassuring_point_main.cpp.o' -c ../src/meassuring_point/main.cpp",
+    "file": "../src/meassuring_point/main.cpp"
+  },
+  {
+    "directory": "/mnt/c/Users/chris/Desktop/teffer_project2_20/build",
+    "command": "c++  -Ipolice_station@exe -I. -I.. -I.././include -I.././include/spdlog/include -I../include -I./include -I./include/spdlog/include -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -Wnon-virtual-dtor -Wextra -Wpedantic -Werror -std=c++17 -O0 -g -DASIO_STANDALONE -DASIO_NO_DEPRECATED -pthread -MD -MQ 'police_station@exe/src_police_station_main.cpp.o' -MF 'police_station@exe/src_police_station_main.cpp.o.d' -o 'police_station@exe/src_police_station_main.cpp.o' -c ../src/police_station/main.cpp",
+    "file": "../src/police_station/main.cpp"
+  }
+]
