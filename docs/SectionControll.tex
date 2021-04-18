@@ -1,0 +1,97 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8]{inputenc}
+
+\usepackage{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage[none]{hyphenat}
+\usepackage{listings}
+\usepackage{blindtext}
+\usepackage{float}
+
+
+\begin{document}
+\begin{titlepage}
+	\centering
+	{\scshape\LARGE HTL Wiener Neustadt \par}
+	\vspace{1cm}
+	{\scshape\Large NVS Projekt\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Section Controll \#20\par}
+	\vspace{2cm}
+	{\Large\itshape Teffer Christoph (20), 5CHIF\par}
+	\vfill
+	\vfill
+
+% Bottom of the page
+	{2 Semester}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Aufgabenstellung}
+\label{sec:Aufgabenstellung}
+
+Aufgabe ist es ein netzwerk-basierte Lösung für eine Section Controll, 
+welche die Zeit von Autos, in einer gewissen Distanz misst. Mithilfe dieser 
+Zeit und der bekannten Distanz kann man sich nun die Geschwindigkeit des Autos
+ausrechnen. Bei einer Überschreitung der erlaubten Geschwindigkeit wird die Polizei
+alamiert, die in drei Minuten an der Poistion an der sich das zu schnelle Auto eintreffen wird.
+
+\section{Idee}
+\label{sec:Idee}
+
+Die Zeit, die ein Auto für das passieren der Messtelle braucht, wird zufällig, 
+in einem vom Benutzer angegebenen Bereichs ermittelt.
+Die Messtelle ist der Client. Dem Client gibt man über die Kommandozeile
+die Ditanz, in Meter, in der gemessen wird, die minimale Zeit und die Maximale Zeit.
+Führt man das Client-Programm aus, werden nun unendlich viele Autos simuliert.
+Sollte ein Auto zu schnell sein wird den Server die Geschwindigkeit des Autos gesendet.
+Am Server, auf der Polizeistation, wird dann der Weg den das Auto innerhalb der nächsten drei Minuten zurücklegen wird
+ausgerechnet. 
+
+\section{Implementierung}
+\label{sec:Implementierung}
+
+Das Projekt besteht aus zwei CPP Dateien, eine für den Client und die 
+Andere für den Server. Die Kommunikation läuft synchron ab. Der Client sendet
+bei einer zu hohen Geschwindigkeit den Server die Geschwindigkeit und der Server rechnet sich
+den Weg, welchen das Autos in den nächsten drei Minuten zurücklegen wird aus. Der Server gibt die Ergebnise nach
+drei Minuten auf der Konsole aus.
+Einegebaute Bibliotheken sind CLI11 (Parsen der Kommandozeilenparameter) und ASIO (Kommunikation).
+
+\section{Kommunikation}
+\label{sec:Kommunikation}
+
+Die Kommunikation wurde mit Hilfe der Bibliothek ASIO realisiert. Server und Client 
+kommunizieren mit einem tcp::iostream. Die Kommunikation läuft synchron ab. Gesendet werden Strings, die Geschwindigkeit.
+
+
+\subsection{Client}
+\label{subsec:Client}
+
+Bis das Programm nicht beendet wird, werden alle drei Sekunden Autos simuliert. Diese Autos fahren in einer zufällig ermittelten Zeit
+eine gewisse Distanzn. Ist ein Auto zu schnell wird den Servre die Geschwindigkeit des Autos übermittelt. Die Geschwindigkeit kann man sich 
+mit der Formel Weg/Zeit ausrechnen. Allerdings sind das Meter pro Sekunde. Multiplieziert man das Ergebnis mit 3.6 erhählt man die Geschwindigkeit
+in km/h. 
+Ist ein Auto im erlaubten Bereich wird den Server nichts gesendet.
+Die Zeit und die Geschwindigkeit des Autos werden auf der Konsole ausgegeben
+Sollte keine Verbindung zum Server vorhanden sein, wird das Programm mit einer Fehlermeldung beendet.
+\subsection{Server}
+\label{subsec:Server}
+
+Der Server nimmt die Client Verbindung an. Die Einsatzmeldung der Polizei läuft als eigener Thread ab. Und beendet sich wenn er keine Signale mehr bekommt.
+In einer Funktion die der Thread dabei ausführt passiert in den ersten drei Minuten gar nichts. Dann wird ein lockguard mit einem mutex erstellt. Zum Schluss wird ein Vector,
+indem ein Tupel welches die Geschwindigkeit und den benötigten Weg enthält, durchgegangen um sich die Werte zu holen. Diese Werte werden dann ausgegeben.
+
+Solange noch Signale vom Client kommen wird der Thread vom Objekt Thread getrennt, damit man sich den Weg den die Polizei benötigen wird
+ausrechnen kann. Der ausgerechnete Weg wird zusammen mit der Geschwindigkeit hinten in den Vector gepusht.
+
+
+
+
+
+
+
+
+\end{document}
